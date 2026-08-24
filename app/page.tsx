@@ -164,4 +164,56 @@ export default function Page() {
           datadogLogs.logger.error('Failed checkout', {
             journey: 'checkout',
             action: 'checkout_failed',
-       
+            reason: 'payment_authorisation_failed',
+            value_gbp: price,
+          });
+          setStatus('Failed checkout event sent');
+        }} style={dangerButtonStyle}>
+          Failed checkout
+        </button>
+
+        <button onClick={() => logEvent('Slow checkout experience', {
+          journey: 'checkout',
+          action: 'slow_checkout',
+          duration_ms: 4200,
+          value_gbp: price,
+        })} style={buttonStyle}>
+          Slow checkout
+        </button>
+      </section>
+
+      <section style={{ padding: '48px', background: '#183b32', color: 'white' }}>
+        <h2>What this proves in Datadog</h2>
+        <ul>
+          <li>Logs capture checkout events and errors.</li>
+          <li>RUM captures real browser experience and user interactions.</li>
+          <li>A mid-market retailer can connect technical issues to revenue risk.</li>
+        </ul>
+        <p>Logs search: <code>service:vercel-datadog-demo checkout</code></p>
+      </section>
+    </main>
+  );
+}
+
+const buttonStyle = {
+  background: '#183b32',
+  color: 'white',
+  border: 0,
+  borderRadius: 8,
+  padding: '12px 18px',
+  marginRight: 12,
+  cursor: 'pointer',
+  fontWeight: 700,
+};
+
+const dangerButtonStyle = {
+  ...buttonStyle,
+  background: '#b42318',
+};
+
+const cardStyle = {
+  background: 'white',
+  borderRadius: 18,
+  padding: 22,
+  boxShadow: '0 10px 30px rgba(0,0,0,0.08)',
+};
