@@ -44,13 +44,31 @@ export default function Page() {
     setStatus(message);
   }
 
-  const product = 'Luxury Linen Bedding Set';
-  const price = 89;
+  const products = [
+    {
+      name: 'Quilted Country Jacket',
+      category: 'Women',
+      price: 129,
+      image: 'https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&w=800&q=80',
+    },
+    {
+      name: 'Wool Weekend Jumper',
+      category: 'Knitwear',
+      price: 74,
+      image: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80',
+    },
+    {
+      name: 'Family Raincoat',
+      category: 'Outerwear',
+      price: 96,
+      image: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=80',
+    },
+  ];
 
   return (
-    <main style={{ fontFamily: 'Arial, sans-serif', background: '#f7f3ee', color: '#243024' }}>
-      <div style={{ background: '#183b32', color: 'white', padding: '10px 32px', textAlign: 'center' }}>
-        Free UK delivery over £50 | Summer home refresh sale now live
+    <main style={{ fontFamily: 'Arial, sans-serif', background: '#fbfaf7', color: '#1f2a24' }}>
+      <div style={{ background: '#102d24', color: 'white', padding: '10px 32px', textAlign: 'center', fontWeight: 700 }}>
+        Free UK delivery over £50 | New countryside collection now live
       </div>
 
       <nav style={{
@@ -59,161 +77,34 @@ export default function Page() {
         alignItems: 'center',
         padding: '22px 48px',
         background: 'white',
-        borderBottom: '1px solid #ddd'
+        borderBottom: '1px solid #ddd',
+        color: '#102d24'
       }}>
-        <h1 style={{ margin: 0, fontSize: 28 }}>Harbour & Home UK</h1>
-        <div style={{ display: 'flex', gap: 24 }}>
-          <span>Home</span>
-          <span>Bedding</span>
-          <span>Kitchen</span>
+        <h1 style={{ margin: 0, fontSize: 30 }}>Harbour & Home UK</h1>
+        <div style={{ display: 'flex', gap: 24, fontWeight: 700 }}>
+          <span>Women</span>
           <span>Kids</span>
+          <span>Home</span>
+          <span>Outdoor</span>
           <span>Sale</span>
         </div>
         <strong>Basket ({basket})</strong>
       </nav>
 
       <section style={{
-        padding: '60px 48px',
-        background: '#eadfce',
+        padding: '70px 48px',
+        background: '#efe4d3',
         display: 'grid',
-        gridTemplateColumns: '1.2fr 1fr',
-        gap: 32
+        gridTemplateColumns: '1.1fr 0.9fr',
+        gap: 36,
+        alignItems: 'center'
       }}>
         <div>
-          <p style={{ textTransform: 'uppercase', letterSpacing: 2 }}>UKI mid-market retail demo</p>
-          <h2 style={{ fontSize: 48, margin: '10px 0' }}>Everyday homeware for busy family homes</h2>
-          <p style={{ fontSize: 18, maxWidth: 620 }}>
-            A mock e-commerce site for a high-traffic UK retailer serving middle-class families,
-            where checkout reliability directly impacts customer experience and revenue.
+          <p style={{ textTransform: 'uppercase', letterSpacing: 2, fontWeight: 800, color: '#284437' }}>
+            UKI mid-market retail demo
           </p>
-          <button
-            onClick={() => logEvent('Hero sale banner clicked', {
-              journey: 'homepage',
-              action: 'hero_banner_click',
-              campaign: 'summer_home_refresh',
-            })}
-            style={buttonStyle}
-          >
-            Shop the sale
-          </button>
-        </div>
-
-        <div style={{ background: 'white', padding: 28, borderRadius: 18 }}>
-          <h3>Today’s retail health story</h3>
-          <p>High traffic + checkout errors = revenue risk.</p>
-          <p><strong>Status:</strong> {status}</p>
-        </div>
-      </section>
-
-      <section style={{ padding: '48px' }}>
-        <h2>Featured family favourites</h2>
-
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: 24
-        }}>
-          {[
-            ['Luxury Linen Bedding Set', 'Bedding', 89],
-            ['Stoneware Dinner Set', 'Kitchen', 64],
-            ['Kids Cotton Storage Baskets', 'Kids', 32],
-          ].map(([name, category, value]) => (
-            <div key={name} style={cardStyle}>
-              <div style={{
-                height: 150,
-                background: '#d8c7b4',
-                borderRadius: 14,
-                marginBottom: 16
-              }} />
-              <p style={{ color: '#6b6b6b' }}>{category}</p>
-              <h3>{name}</h3>
-              <p>£{value}</p>
-              <button
-                onClick={() => {
-                  setBasket(basket + 1);
-                  logEvent('Add to basket', {
-                    journey: 'checkout',
-                    action: 'add_to_basket',
-                    product: name,
-                    value_gbp: value,
-                  });
-                }}
-                style={buttonStyle}
-              >
-                Add to basket
-              </button>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section style={{ padding: '48px', background: 'white' }}>
-        <h2>Checkout reliability demo controls</h2>
-        <p>Use these to create Datadog events that map to real retail business impact.</p>
-
-        <button onClick={() => logEvent('Successful checkout', {
-          journey: 'checkout',
-          action: 'checkout_success',
-          value_gbp: price,
-          customer_segment: 'returning_family_customer',
-        })} style={buttonStyle}>
-          Successful checkout
-        </button>
-
-        <button onClick={() => {
-          datadogLogs.logger.error('Failed checkout', {
-            journey: 'checkout',
-            action: 'checkout_failed',
-            reason: 'payment_authorisation_failed',
-            value_gbp: price,
-          });
-          setStatus('Failed checkout event sent');
-        }} style={dangerButtonStyle}>
-          Failed checkout
-        </button>
-
-        <button onClick={() => logEvent('Slow checkout experience', {
-          journey: 'checkout',
-          action: 'slow_checkout',
-          duration_ms: 4200,
-          value_gbp: price,
-        })} style={buttonStyle}>
-          Slow checkout
-        </button>
-      </section>
-
-      <section style={{ padding: '48px', background: '#183b32', color: 'white' }}>
-        <h2>What this proves in Datadog</h2>
-        <ul>
-          <li>Logs capture checkout events and errors.</li>
-          <li>RUM captures real browser experience and user interactions.</li>
-          <li>A mid-market retailer can connect technical issues to revenue risk.</li>
-        </ul>
-        <p>Logs search: <code>service:vercel-datadog-demo checkout</code></p>
-      </section>
-    </main>
-  );
-}
-
-const buttonStyle = {
-  background: '#183b32',
-  color: 'white',
-  border: 0,
-  borderRadius: 8,
-  padding: '12px 18px',
-  marginRight: 12,
-  cursor: 'pointer',
-  fontWeight: 700,
-};
-
-const dangerButtonStyle = {
-  ...buttonStyle,
-  background: '#b42318',
-};
-
-const cardStyle = {
-  background: 'white',
-  borderRadius: 18,
-  padding: 22,
-  boxShadow: '0 10px 30px rgba(0,0,0,0.08)',
-};
+          <h2 style={{ fontSize: 52, margin: '10px 0', color: '#102d24', lineHeight: 1.05 }}>
+            British countryside style for busy family life
+          </h2>
+          <p style={{ fontSize: 20, maxWidth: 650, color: '#263b31', lineHeight: 1.6, fontWeight: 500 }}>
+            A mock high-tr
